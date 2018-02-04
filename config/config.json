@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "video-library",
+    "password": "password",
+    "database": "video_library_development",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "video-library",
+    "password": "password",
+    "database": "video_library_testing",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "video-library",
+    "password": "password",
+    "database": "video_library_production",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}
