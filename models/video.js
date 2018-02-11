@@ -1,5 +1,4 @@
 'use strict';
-
 module.exports = (sequelize, DataTypes) => {
   const Video = sequelize.define('Video', {
     title: DataTypes.STRING,
@@ -10,11 +9,8 @@ module.exports = (sequelize, DataTypes) => {
   Video.associate = models => {
     Video.belongsTo(models.Course, {
       onDelete: "CASCADE",
-      foreignKey: {
-        allowNull: false
-      }
+      foreignKey: 'courseId'
     })
   };
-
   return Video;
 };

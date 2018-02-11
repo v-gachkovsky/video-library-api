@@ -6,8 +6,10 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Course.associate = models => {
-    Course.hasMany(models.Video);
+    Course.hasMany(models.Video, {
+      foreignKey: 'courseId',
+      onDelete: 'CASCADE'
+    });
   };
-
   return Course;
 };
