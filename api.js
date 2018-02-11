@@ -6,9 +6,16 @@ const app = express();
 const port = 9000;
 const routes = require('./routes');
 
-app.use(cors({
-  origin: 'http://localhost:8080'
-}));
+// const whitelist = ['http://localhost:8080', 'http://localhost:9010'];
+// const corsOptions = {
+//   origin: (origin, callback) => {
+//     whitelist.indexOf(origin) !== -1
+//       ? callback(null, true)
+//       : callback(new Error('Not allowed by CORS'));
+//   }
+// };
+
+app.use(cors({ origin: '*' }));
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));

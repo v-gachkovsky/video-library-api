@@ -4,6 +4,13 @@ module.exports = {
       {
         title: 'ПК Ритейл',
         description: 'Курс о ритейле. Вся фигня и все такое :-Р',
+        video: {
+          title: 'Топим каркасную винтовку за 2000 баксов! | Разрушительное ранчо | Перевод Zёбры',
+          description: 'Топим каркасную винтовку за 2000 баксов! | Разрушительное ранчо | Перевод Zёбры',
+          videoId: 'KzY0McjNLE0',
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
         createdAt: new Date(),
         updatedAt: new Date()
       },

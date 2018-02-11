@@ -1,14 +1,20 @@
+'use strict';
+
 module.exports = (sequelize, DataTypes) => {
   const Video = sequelize.define('Video', {
     title: DataTypes.STRING,
     description: DataTypes.STRING,
     videoId: DataTypes.STRING
-  }, {
-    classMethods: {
-      associate: (models) => {
-        // associations can be defined here
-      }
-    }
   });
+
+  Video.associate = models => {
+    Video.belongsTo(models.Course, {
+      onDelete: "CASCADE",
+      foreignKey: {
+        allowNull: false
+      }
+    })
+  };
+
   return Video;
 };
