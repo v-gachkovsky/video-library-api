@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
   Video.associate = models => {
     Video.belongsTo(models.Course, {
       onDelete: "CASCADE",
-      foreignKey: 'courseId'
+      foreignKey: 'CourseId'
     })
   };
   return Video;

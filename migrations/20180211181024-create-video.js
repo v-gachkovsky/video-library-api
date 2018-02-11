@@ -17,8 +17,8 @@ module.exports = {
       videoId: {
         type: Sequelize.INTEGER
       },
-      courseId: {
-        type: Sequelize.UUID,
+      CourseId: {
+        type: Sequelize.INTEGER,
         onDelete: 'CASCADE',
         references: {
           model: 'Courses',
