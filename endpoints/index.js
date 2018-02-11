@@ -7,6 +7,19 @@ module.exports = {
     }).catch(error => res.json({ success: false, error }));
   },
 
+  getCourseVideos: (req, res) => {
+    const { courseId } = req.params;
+    db.Video.findAll({
+      where: {
+        courseId
+      }
+    }).then(videos => {
+      res.json({ success: true, videos });
+    }).catch(error => {
+      res.json({ success: false, error });
+    });
+  },
+
   getCourses: (req, res) => {
     db.Course.findAll().then(courses => {
       res.json(courses);
@@ -17,8 +30,8 @@ module.exports = {
     const { body: newCourse } = req;
     db.Course.create(newCourse).then(() => {
       res.json({ success: true });
-    }).catch(err => {
-      res.json({ success: false, error: err });
+    }).catch(error => {
+      res.json({ success: false, error });
     });
   },
 
@@ -30,11 +43,11 @@ module.exports = {
 
       db.Video.create(newVideo).then(() => {
         res.json({ success: true });
-      }).catch(err => {
-        res.json({ success: false, error: err });
+      }).catch(error => {
+        res.json({ success: false, error });
       });
-    }).catch(err => {
-      res.json({ success: false, error: err });
+    }).catch(error => {
+      res.json({ success: false, error });
     });
   }
 };
