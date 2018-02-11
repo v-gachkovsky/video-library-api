@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Course.associate = models => {
     Course.hasMany(models.Video, {
-      foreignKey: 'CourseId',
+      foreignKey: 'courseId',
       onDelete: 'CASCADE'
     });
   };
