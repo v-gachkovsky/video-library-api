@@ -14,10 +14,10 @@ module.exports = {
       description: {
         type: Sequelize.STRING
       },
-      videoId: {
-        type: Sequelize.INTEGER
+      videoCode: {
+        type: Sequelize.STRING
       },
-      CourseId: {
+      courseId: {
         type: Sequelize.INTEGER,
         onDelete: 'CASCADE',
         references: {
