@@ -6,9 +6,7 @@ const app = express();
 const port = 9000;
 const routes = require('./routes');
 
-app.use(cors({
-  origin: 'http://localhost:8080'
-}));
+app.use(cors({ origin: '*' }));
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
