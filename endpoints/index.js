@@ -1,4 +1,7 @@
+const passport = require('passport');
 const db  = require('../models');
+
+const JWT_SECRET_KEY = 'LIVAANDNASTYA=Lofki ))';
 
 module.exports = {
   // Videos endpoints
@@ -79,5 +82,45 @@ module.exports = {
     }).catch(error => {
       res.json({ success: false, error })
     })
+  },
+
+  signin: (req, res) => {
+    passport.authenticate('local', { session: false }, (err, user, info) => {
+      if (err || !user) {
+        return res.status(400).json({
+          success: false,
+          err: 'Something went wrong'
+        });
+      }
+
+      req.login(user, { session: false }, error => {
+        if (error) {
+          res.json({ success: false, error });
+        }
+        const token = jwt.sign(user, JWT_SECRET_KEY);
+        return res.json({ user, token });
+      });
+    })(req, res);
+  },
+
+  signup: (req, res) => {
+    const { email, firstName, lastName, password } = req.body
+
+    db.User.findOne({ where: { email } }).then(user => {
+      if (user) {
+        res.json({ success: false, error: 'Email already used' });
+      } else {
+        db.User.create({
+          firstName,
+          lastName,
+          email,
+          password
+        }).then(() => {
+          res.json({ success: true });
+        });
+      }
+    }).catch(error => {
+      res.json({ success: false, error });
+    });
   }
 };
