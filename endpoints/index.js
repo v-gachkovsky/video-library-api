@@ -1,4 +1,4 @@
-const passport = require('passport');
+const jwt = require('jsonwebtoken');
 const db  = require('../models');
 
 const JWT_SECRET_KEY = 'LIVAANDNASTYA=Lofki ))';
@@ -42,7 +42,7 @@ module.exports = {
 
   deleteVideo: (req, res) => {
     const { id } = req.params;
-    
+
     db.Video.destroy({
       where: {
         id
@@ -72,7 +72,7 @@ module.exports = {
 
   deleteCourse: (req, res) => {
     const { id } = req.params;
-    
+
     db.Course.destroy({
       where: {
         id
@@ -85,26 +85,34 @@ module.exports = {
   },
 
   signin: (req, res) => {
-    passport.authenticate('local', { session: false }, (err, user, info) => {
-      if (err || !user) {
-        return res.status(400).json({
-          success: false,
-          err: 'Something went wrong'
-        });
+    const { email, password } = req.body;
+
+    db.User.findOne({ where: { email } }).then(user => {
+      const { password: passwordFromDB } = user;
+
+      if (password !== passwordFromDB) {
+        res.json({ success: false, message: 'Authentication failed1' });
       }
 
-      req.login(user, { session: false }, error => {
-        if (error) {
-          res.json({ success: false, error });
-        }
-        const token = jwt.sign(user, JWT_SECRET_KEY);
-        return res.json({ user, token });
+      const payload = {
+        email
+      };
+
+      const token = jwt.sign(payload, JWT_SECRET_KEY);
+
+      res.json({
+        success: true,
+        message: 'Enjoy your token!',
+        token
       });
-    })(req, res);
+    }).catch((err) => {
+      console.log('err', err);
+      res.json({ success: false, message: 'Authentication failed2' });
+    });
   },
 
   signup: (req, res) => {
-    const { email, firstName, lastName, password } = req.body
+    const { email, firstName, lastName, password } = req.body;
 
     db.User.findOne({ where: { email } }).then(user => {
       if (user) {
