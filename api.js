@@ -1,10 +1,17 @@
 const express = require('express');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const db  = require('./models');
+
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
 const app = express();
 const port = 9000;
 const routes = require('./routes');
+
+app.set('superSecret', 'JWTTokenSecret');
+app.use(passport.initialize());
 
 app.use(cors({ origin: '*' }));
 
