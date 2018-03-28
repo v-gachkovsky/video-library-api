@@ -13,6 +13,7 @@ router.route('/videos/:id').delete(endpoints.deleteVideo);
 
 // COURSES
 // GET
+router.route('/all-courses').get(endpoints.getAllCourses);
 router.route('/courses').get(endpoints.getCourses);
 router.route('/courses/:userId').get(endpoints.getUserCourses);
 // POST

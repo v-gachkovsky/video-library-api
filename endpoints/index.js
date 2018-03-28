@@ -56,6 +56,27 @@ module.exports = {
 
   // Courses endpoints
   getCourses: (req, res) => {
+    const email = req.header('X-User-Email');
+
+    db.User.findOne({
+      where: { email }
+    }).then(data => {
+      const userId = data.get().id;
+      db.Course.findAll({
+        include: [{
+          where: { userId },
+          model: db.UsersCourses
+        }]
+      }).then(data => {
+        const courses = data.map(c => c.get());
+        res.json({ success: true, courses });
+      })
+    }).catch(error => {
+      res.json({ success: false, message: error })
+    });
+  },
+
+  getAllCourses: (req, res) => {
     db.Course.findAll().then(courses => {
       res.json(courses);
     }).catch(error => res.json({ success: false, message: error }));
