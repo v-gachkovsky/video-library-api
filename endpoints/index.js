@@ -56,6 +56,27 @@ module.exports = {
 
   // Courses endpoints
   getCourses: (req, res) => {
+    const email = req.header('X-User-Email');
+
+    db.User.findOne({
+      where: { email }
+    }).then(data => {
+      const userId = data.get().id;
+      db.Course.findAll({
+        include: [{
+          where: { userId },
+          model: db.UsersCourses
+        }]
+      }).then(data => {
+        const courses = data.map(c => c.get());
+        res.json({ success: true, courses });
+      })
+    }).catch(error => {
+      res.json({ success: false, message: error })
+    });
+  },
+
+  getAllCourses: (req, res) => {
     db.Course.findAll().then(courses => {
       res.json(courses);
     }).catch(error => res.json({ success: false, message: error }));
@@ -125,6 +146,73 @@ module.exports = {
       }
     }).catch(error => {
       res.json({ success: false, message: error });
+    });
+  },
+
+  getUsers: (req, res) => {
+    db.User.findAll().then(data => {
+      const users = data.map(user => {
+        user.password = 'hidden';
+        return user;
+      });
+
+      res.json({ success: true, users });
+    }).catch(err => {
+      console.log('err', err);
+      res.json({ success: false, message: "Can't receive users" });
+    });
+  },
+
+  getUserCourses: (req, res) => {
+    const { userId } = req.params;
+
+    db.Course.findAll({
+      include: [{
+          model: db.UsersCourses,
+          where: { userId },
+      }]
+    }).then(data => {
+      res.json({ success: true, courses: data });
+    }).catch(err => {
+      console.log('err', err);
+      res.json({ success: false, message: '' });
+    });
+  },
+
+  toggleCourseToUser: (req, res) => {
+    const { userId } = req.params;
+    const { courseId, isChecked } = req.body;
+
+    db.UsersCourses.findOne({
+      where: {
+        userId,
+        courseId
+      }
+    }).then(data => {
+      if (isChecked) {
+        if (!data) {
+          db.UsersCourses.create({
+            courseId,
+            userId
+          }).then(() => {
+            res.json({ success: true });
+          });
+        }
+      } else {
+        if (data) {
+          db.UsersCourses.destroy({
+            where: {
+              courseId,
+              userId
+            }
+          }).then(() => {
+            res.json({ success: true });
+          })
+        }
+      }
+    }).catch(err => {
+      console.log(err);
+      res.json({ success: false, message: "Can't make request to database" });
     });
   }
 };
