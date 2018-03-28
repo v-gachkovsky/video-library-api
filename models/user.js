@@ -1,5 +1,4 @@
 'use strict';
-const passport = require('passport');
 
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
@@ -10,7 +9,9 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     classMethods: {
       associate: models => {
-        User.belongsToMany(models.Course, { through: 'CoursesUsers' });
+        User.hasMany(models.UsersCourses, {
+          foreignKey: 'userId'
+        });
       }
     }
   });
