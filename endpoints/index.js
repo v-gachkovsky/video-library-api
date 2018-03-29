@@ -149,6 +149,24 @@ module.exports = {
     });
   },
 
+  getUser: (req, res) => {
+    const email = req.header('X-User-Email');
+
+    db.User.findOne({
+      where: {
+        email
+      }
+    }).then(userData => {
+      if (!userData) res.json({ success: false, message: "User doesn't exists" });
+      const user = userData.get();
+      delete user.password;
+
+      res.json({ success: true, user });
+    }).catch(error => {
+      res.json({ success: false, message: error });
+    })
+  },
+
   getUsers: (req, res) => {
     db.User.findAll().then(data => {
       const users = data.map(user => {
