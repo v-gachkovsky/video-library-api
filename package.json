@@ -4,7 +4,7 @@
   "description": "Video Library API",
   "main": "api.js",
   "scripts": {
-    "start": "node api.js",
+    "start": "nodemon api.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

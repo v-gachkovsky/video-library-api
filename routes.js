@@ -26,5 +26,6 @@ router.route('/courses/:id').delete(endpoints.deleteCourse);
 router.route('/signup').post(endpoints.signup);
 router.route('/signin').post(endpoints.signin);
 router.route('/users').get(endpoints.getUsers);
+router.route('/user').get(endpoints.getUser);
 
 module.exports = router;
